@@ -68,7 +68,7 @@ export default function RegularPage() {
                 variant="outlined"
                 autoFocus
                 error={hasErrorQn}
-                label="Error"
+                label="Question"
                 helperText={hasErrorQn ? "Please Fill Up this field" : ""}
                 onChange={(event) => setPage({...regularPage, question: event.target.value})}
                 value={question}

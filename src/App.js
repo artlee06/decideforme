@@ -9,10 +9,10 @@ export default function App() {
   return (
     <Router>
       <div>
-      <Route exact path="/Main" render={() => <MainPage />}/>
-      <Route exact path="/Regular" render={() => <RegularPage />}/>
-      <Route exact path="/Snek" render={() => <SnekPage />}/>
-      <Redirect to="/Main"/>
+        <Route exact path="/Main" render={() => <MainPage />}/>
+        <Route exact path="/Regular" render={() => <RegularPage />}/>
+        <Route exact path="/Snek" render={() => <SnekPage />}/>
+        <Redirect to="/Main"/>
       </div>
     </Router>
   );

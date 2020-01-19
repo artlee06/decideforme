@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from "react";
-
+import './Errormsg.css';
 // Material UI
 // import { makeStyles } from "@material-ui/core/styles";
-import { createMuiTheme } from "@material-ui/core/styles";
-import { ThemeProvider } from "@material-ui/styles";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
-import Button from '@material-ui/core/Button';
 import Box from "@material-ui/core/Box";
 import TextField from '@material-ui/core/TextField';
+import AnswerField from './AnswerField';
 
-
+//helpers
+import randomIndex from "../helpers/Randomiser";
 import { useHistory } from "react-router-dom";
+import RadioGroup from '@material-ui/core/RadioGroup';
+import Button from '@material-ui/core/Button';
+import Radio from '@material-ui/core/Radio';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { FormGroup } from "@material-ui/core";
 
 export default function RegularPage() {
   let history = useHistory();
@@ -35,20 +39,21 @@ export default function RegularPage() {
   const handleSubmit = () => {
       const errors = validateAll(); //returns errors as well as the JSON object
       if (!hasErrors(errors)) {
-        //   const getAnswers = randomiser(answers);
-        //   setPage({...regularPage, answers: getAnswers});
+          const getAnswer = randomIndex(answers);
+          history.push("/Answer", {value: getAnswer});
       }
   };
 
-
   //Validation
   const hasErrorQn = errors.question !== "";
+  const hasErrorQn2 = errors.type !== "";
   const validateAll = () => {
     const errorObj = {
         question: "",
         type: "",
     };
     errorObj.question = question === "" ? "Question me senpai" : "";
+    errorObj.type = type === "" ? " What kind of question la" : "";
     setErrors(errorObj);
     return errorObj;
   };
@@ -56,11 +61,16 @@ export default function RegularPage() {
       return !(errors.question === "" && errors.type === "");
   };
 
+  const handleChange = event => {
+    setPage({...regularPage, type: event.target.value});
+  };
+
+
   return (
     <React.Fragment>
       <div>
         <Paper elevation={0} square>
-          <Box>
+          <Box display="flex" flexDirection="column" justifyContent="center">
             <Typography variant="h2">
                 Regular Mode
             </Typography>
@@ -69,15 +79,26 @@ export default function RegularPage() {
                 autoFocus
                 error={hasErrorQn}
                 label="Question"
-                helperText={hasErrorQn ? "Please Fill Up this field" : ""}
+                helperText={hasErrorQn ? errors.question : ""}
                 onChange={(event) => setPage({...regularPage, question: event.target.value})}
                 value={question}
             />
+            <AnswerField values={answers} setArr={(newArr) => setPage({...regularPage, answers: newArr})} />
           </Box>
+          <RadioGroup aria-label="type" name="type1" value={type} onChange={handleChange}>
+            <FormControlLabel control={<Radio value="yN" />} label="Yes/No" />
+            <FormControlLabel control={<Radio value="mC" />} label="Open ended" />
+          </RadioGroup>
+          {hasErrorQn2 && 
+            <div class="errormsg"> Error: wHAT iS uR quEstIon </div>
+          }
           <Button onClick={handleSubmit}> DECIDE FOR ME </Button>
         </Paper>
       </div>
     </React.Fragment>
   );
-}
+};
+
+  
+
 

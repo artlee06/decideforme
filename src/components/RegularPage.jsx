@@ -1,19 +1,21 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
+import './Errormsg.css';
 // Material UI
 // import { makeStyles } from "@material-ui/core/styles";
-import { createMuiTheme } from "@material-ui/core/styles";
-import { ThemeProvider } from "@material-ui/styles";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
-import Button from '@material-ui/core/Button';
 import Box from "@material-ui/core/Box";
 import TextField from '@material-ui/core/TextField';
 import AnswerField from './AnswerField';
 
 //helpers
 import randomIndex from "../helpers/Randomiser";
-import { useHistory, Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import RadioGroup from '@material-ui/core/RadioGroup';
+import Button from '@material-ui/core/Button';
+import Radio from '@material-ui/core/Radio';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { FormGroup } from "@material-ui/core";
 
 export default function RegularPage() {
   let history = useHistory();
@@ -44,18 +46,25 @@ export default function RegularPage() {
 
   //Validation
   const hasErrorQn = errors.question !== "";
+  const hasErrorQn2 = errors.type !== "";
   const validateAll = () => {
     const errorObj = {
         question: "",
         type: "",
     };
-    errorObj.question = question === "" ? "Question Me Sempai" : "";
+    errorObj.question = question === "" ? "Question me senpai" : "";
+    errorObj.type = type === "" ? " What kind of question la" : "";
     setErrors(errorObj);
     return errorObj;
   };
   const hasErrors = (errors) => {
       return !(errors.question === "" && errors.type === "");
   };
+
+  const handleChange = event => {
+    setPage({...regularPage, type: event.target.value});
+  };
+
 
   return (
     <React.Fragment>
@@ -76,10 +85,20 @@ export default function RegularPage() {
             />
             <AnswerField values={answers} setArr={(newArr) => setPage({...regularPage, answers: newArr})} />
           </Box>
+          <RadioGroup aria-label="type" name="type1" value={type} onChange={handleChange}>
+            <FormControlLabel control={<Radio value="yN" />} label="Yes/No" />
+            <FormControlLabel control={<Radio value="mC" />} label="Open ended" />
+          </RadioGroup>
+          {hasErrorQn2 && 
+            <div class="errormsg"> Error: wHAT iS uR quEstIon </div>
+          }
           <Button onClick={handleSubmit}> DECIDE FOR ME </Button>
         </Paper>
       </div>
     </React.Fragment>
   );
-}
+};
+
+  
+
 

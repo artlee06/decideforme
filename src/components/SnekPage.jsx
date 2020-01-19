@@ -28,6 +28,7 @@ export default function SnekPage() {
   const [snekPage, setPage] = useState({
     question: "",
     type: "",
+    snekCount: 0,
     answers: []
   });
 
@@ -36,25 +37,27 @@ export default function SnekPage() {
       type: "",
   });
 
+
   //Destructuring
-  const { question, type, answers } = snekPage;
+  const { question, type, answers, snekCount } = snekPage;
 
   //handlers
   const handleSubmit = () => {
     const errors = validateAll(); //returns errors as well as the JSON object
     if (!hasErrors(errors)) {
         let getAnswer = 0;
+        const index = snekCount - 1;
         if (type === "yN") {
-            getAnswer = randomIndex(["Yes", "No"]);
+            getAnswer =["Yes", "No"][index];
         } else {
-          getAnswer = randomIndex(answers);
+          getAnswer = answers[index];
         }
         history.push("/Answer", {value: getAnswer, question: question});
     }
 };
 
   const handleSnek = () => {
-    console.log("you have been sneked")
+    setPage({...snekPage, snekCount: snekPage.snekCount + 1});
 };
 
 
@@ -77,7 +80,11 @@ export default function SnekPage() {
    };
  
    const handleChange = event => {
-     setPage({...snekPage, type: event.target.value});
+    let answerArr = [];
+    if (event.target.value === "yN") {
+        answerArr = ["Yes", "No"];
+    }
+     setPage({...snekPage, type: event.target.value, answers: answerArr});
    };
  
 
@@ -127,7 +134,7 @@ export default function SnekPage() {
             }
             {showOpenEnded && <AnswerField values={answers} setArr={(newArr) => setPage({...snekPage, answers: newArr})} />}
           </Box>
-          <Button onClick={handleSubmit}> DECIDE FOR ME </Button>
+          <Button onClick={handleSubmit} > DECIDE FOR ME </Button>
         </Paper>
       </div>
       <ColorButton
@@ -136,6 +143,7 @@ export default function SnekPage() {
         color="primary"
         onClick={handleSnek}
         className={classes.margin}
+        disabled={snekCount >= answers.length}
       >
         SnekSnek
       </ColorButton>

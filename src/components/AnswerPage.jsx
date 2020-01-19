@@ -19,7 +19,7 @@ export default function AnswerPage() {
   const history = useHistory();
 
   const handleRegular = () => history.push("/Regular");
-  const handleSnek = () => history.push("Snek");
+  const handleSnek = () => history.push("/Snek");
 
   return (
     <React.Fragment>
@@ -35,7 +35,7 @@ export default function AnswerPage() {
               <Typography variant="h2">{val}</Typography>
               <Box>
                 <Button onClick={handleRegular} variant="outlined"> Go to Regular! </Button>
-                <Button onClick={handleRegular} variant="outlined"> Go to Snek-Mode! </Button>
+                <Button onClick={handleSnek} variant="outlined"> Go to Snek-Mode! </Button>
               </Box>
             </Box>
           </Paper>

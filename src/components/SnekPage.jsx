@@ -20,6 +20,7 @@ import { grey } from "@material-ui/core/colors";
 import { createMuiTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
 import { withStyles, makeStyles} from "@material-ui/core/styles";
+import meme from "./spongebobmocking.jpg";
 
 export default function SnekPage() {
   let history = useHistory();
@@ -121,7 +122,7 @@ export default function SnekPage() {
                 autoFocus
                 error={hasErrorQn}
                 label="Question"
-                helperText={hasErrorQn ? errors.question : ""}
+                helpserText={hasErrorQn ? errors.question : ""}
                 onChange={(event) => setPage({...snekPage, question: event.target.value})}
                 value={question}
             />
@@ -130,7 +131,10 @@ export default function SnekPage() {
                 <FormControlLabel control={<Radio value="mC" />} label="Open ended" />
             </RadioGroup>
             {hasErrorQn2 && 
-                <div class="errormsg"> Error: wHAT iS uR quEstIon </div>
+                <div>
+                  <div class="errormsg"> Error: wHAT iS uR quEstIon </div>
+                  <img src={meme}/>
+                </div>
             }
             {showOpenEnded && <AnswerField values={answers} setArr={(newArr) => setPage({...snekPage, answers: newArr})} />}
           </Box>

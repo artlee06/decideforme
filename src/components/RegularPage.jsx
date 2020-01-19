@@ -15,6 +15,8 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import Button from '@material-ui/core/Button';
 import Radio from '@material-ui/core/Radio';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import meme from "./spongebobmocking.jpg";
+
 
 export default function RegularPage() {
   let history = useHistory();
@@ -93,8 +95,10 @@ export default function RegularPage() {
                 <FormControlLabel control={<Radio value="mC" />} label="Open ended" />
             </RadioGroup>
             {hasErrorQn2 && 
-                <div class="errormsg"> Error: wHAT iS uR quEstIon </div>
-            }
+              <div>
+                  <div class="errormsg"> Error: wHAT iS uR quEstIon </div>
+                  <img src={meme}/>
+                </div>            }
             {showOpenEnded && <AnswerField values={answers} setArr={(newArr) => setPage({...regularPage, answers: newArr})} />}
           </Box>
           <Button onClick={handleSubmit}> DECIDE FOR ME </Button>

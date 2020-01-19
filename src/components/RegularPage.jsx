@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+import './Errormsg.css';
 // Material UI
 // import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
@@ -43,12 +43,14 @@ export default function RegularPage() {
 
   //Validation
   const hasErrorQn = errors.question !== "";
+  const hasErrorQn2 = errors.type !== "";
   const validateAll = () => {
     const errorObj = {
         question: "",
         type: "",
     };
     errorObj.question = question === "" ? "Question me senpai" : "";
+    errorObj.type = type === "" ? " What kind of question la" : "";
     setErrors(errorObj);
     return errorObj;
   };
@@ -74,16 +76,19 @@ export default function RegularPage() {
                 autoFocus
                 error={hasErrorQn}
                 label="Question"
-                helperText={hasErrorQn ? "Please Fill Up this field" : ""}
+                helperText={hasErrorQn ? errors.question : ""}
                 onChange={(event) => setPage({...regularPage, question: event.target.value})}
                 value={question}
             />
           </Box>
-          <Button onClick={handleSubmit}> DECIDE FOR ME </Button>
           <RadioGroup aria-label="type" name="type1" value={type} onChange={handleChange}>
             <FormControlLabel control={<Radio value="yN" />} label="Yes/No" />
             <FormControlLabel control={<Radio value="mC" />} label="Open ended" />
           </RadioGroup>
+          {hasErrorQn2 && 
+            <div class="errormsg"> Error: wHAT iS uR quEstIon </div>
+          }
+          <Button onClick={handleSubmit}> DECIDE FOR ME </Button>
         </Paper>
       </div>
     </React.Fragment>

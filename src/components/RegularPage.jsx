@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 // Material UI
 // import { makeStyles } from "@material-ui/core/styles";
@@ -9,6 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from '@material-ui/core/Button';
 import Box from "@material-ui/core/Box";
 import TextField from '@material-ui/core/TextField';
+import AnswerField from './AnswerField';
 
 
 import { useHistory } from "react-router-dom";
@@ -48,7 +49,7 @@ export default function RegularPage() {
         question: "",
         type: "",
     };
-    errorObj.question = question === "" ? "Question me senpai" : "";
+    errorObj.question = question === "" ? "Question Me Sempai" : "";
     setErrors(errorObj);
     return errorObj;
   };
@@ -60,7 +61,7 @@ export default function RegularPage() {
     <React.Fragment>
       <div>
         <Paper elevation={0} square>
-          <Box>
+          <Box display="flex" flexDirection="column" justifyContent="center">
             <Typography variant="h2">
                 Regular Mode
             </Typography>
@@ -69,10 +70,11 @@ export default function RegularPage() {
                 autoFocus
                 error={hasErrorQn}
                 label="Question"
-                helperText={hasErrorQn ? "Please Fill Up this field" : ""}
+                helperText={hasErrorQn ? errors.question : ""}
                 onChange={(event) => setPage({...regularPage, question: event.target.value})}
                 value={question}
             />
+            <AnswerField values={answers} setArr={(newArr) => setPage({...regularPage, answers: newArr})} />
           </Box>
           <Button onClick={handleSubmit}> DECIDE FOR ME </Button>
         </Paper>

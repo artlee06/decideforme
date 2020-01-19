@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import './Errormsg.css';
 // Material UI
 // import { makeStyles } from "@material-ui/core/styles";
@@ -15,7 +15,6 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import Button from '@material-ui/core/Button';
 import Radio from '@material-ui/core/Radio';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { FormGroup } from "@material-ui/core";
 
 export default function RegularPage() {
   let history = useHistory();
@@ -39,7 +38,12 @@ export default function RegularPage() {
   const handleSubmit = () => {
       const errors = validateAll(); //returns errors as well as the JSON object
       if (!hasErrors(errors)) {
-          const getAnswer = randomIndex(answers);
+          let getAnswer = 0;
+          if (type === "yN") {
+              getAnswer = randomIndex(["Yes", "No"]);
+          } else {
+            getAnswer = randomIndex(answers);
+          }
           history.push("/Answer", {value: getAnswer});
       }
   };
@@ -47,6 +51,7 @@ export default function RegularPage() {
   //Validation
   const hasErrorQn = errors.question !== "";
   const hasErrorQn2 = errors.type !== "";
+  const showOpenEnded = type === "mC";
   const validateAll = () => {
     const errorObj = {
         question: "",
@@ -83,15 +88,15 @@ export default function RegularPage() {
                 onChange={(event) => setPage({...regularPage, question: event.target.value})}
                 value={question}
             />
-            <AnswerField values={answers} setArr={(newArr) => setPage({...regularPage, answers: newArr})} />
+            <RadioGroup aria-label="type" name="type1" value={type} onChange={handleChange}>
+                <FormControlLabel control={<Radio value="yN" />} label="Yes/No" />
+                <FormControlLabel control={<Radio value="mC" />} label="Open ended" />
+            </RadioGroup>
+            {hasErrorQn2 && 
+                <div class="errormsg"> Error: wHAT iS uR quEstIon </div>
+            }
+            {showOpenEnded && <AnswerField values={answers} setArr={(newArr) => setPage({...regularPage, answers: newArr})} />}
           </Box>
-          <RadioGroup aria-label="type" name="type1" value={type} onChange={handleChange}>
-            <FormControlLabel control={<Radio value="yN" />} label="Yes/No" />
-            <FormControlLabel control={<Radio value="mC" />} label="Open ended" />
-          </RadioGroup>
-          {hasErrorQn2 && 
-            <div class="errormsg"> Error: wHAT iS uR quEstIon </div>
-          }
           <Button onClick={handleSubmit}> DECIDE FOR ME </Button>
         </Paper>
       </div>

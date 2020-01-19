@@ -44,7 +44,7 @@ export default function RegularPage() {
           } else {
             getAnswer = randomIndex(answers);
           }
-          history.push("/Answer", {value: getAnswer});
+          history.push("/Answer", {value: getAnswer, question: question});
       }
   };
 

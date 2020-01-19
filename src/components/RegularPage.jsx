@@ -11,8 +11,9 @@ import Box from "@material-ui/core/Box";
 import TextField from '@material-ui/core/TextField';
 import AnswerField from './AnswerField';
 
-
-import { useHistory } from "react-router-dom";
+//helpers
+import randomIndex from "../helpers/Randomiser";
+import { useHistory, Redirect } from "react-router-dom";
 
 export default function RegularPage() {
   let history = useHistory();
@@ -36,11 +37,10 @@ export default function RegularPage() {
   const handleSubmit = () => {
       const errors = validateAll(); //returns errors as well as the JSON object
       if (!hasErrors(errors)) {
-        //   const getAnswers = randomiser(answers);
-        //   setPage({...regularPage, answers: getAnswers});
+          const getAnswer = randomIndex(answers);
+          history.push("/Answer", {value: getAnswer});
       }
   };
-
 
   //Validation
   const hasErrorQn = errors.question !== "";

@@ -10,6 +10,7 @@ It is a simple web app made with React that helps users decide what to do given 
 - Input your question and the question type
 - Get your answer immediately!
 
+
 #### Snek Mode
 - Input your question and press the hidden white button near the bottom of the screen
 - The number of times you press will be the answer to the question
